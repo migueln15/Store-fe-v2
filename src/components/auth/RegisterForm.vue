@@ -1,30 +1,79 @@
 <template>
-  <div class="wrapper">
-    <h2>Registration</h2>
-    <form action="#">
-      <div class="input-box">
-        <input type="text" placeholder="Enter your name" required />
-      </div>
-      <div class="input-box">
-        <input type="text" placeholder="Enter your email" required />
-      </div>
-      <div class="input-box">
-        <input type="password" placeholder="Create password" required />
-      </div>
-      <div class="input-box">
-        <input type="password" placeholder="Confirm password" required />
-      </div>
-      <div class="policy">
-        <input type="checkbox" />
-        <h3>I accept all terms & condition</h3>
-      </div>
-      <div class="input-box button">
-        <input type="Submit" value="Register Now" />
-      </div>
-      <div class="text">
-        <h3>Already have an account? <a href="#">Login now</a></h3>
-      </div>
-    </form>
+  <div class="div-form">
+    <div class="wrapper">
+      <h2>Registration</h2>
+      <form action="#">
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="user.firstName"
+            placeholder="Enter your first name"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="user.lastName"
+            placeholder="Enter your last name"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="date"
+            v-model="user.dateOfBirth"
+            placeholder="Enter your birthday"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="user.country"
+            placeholder="Enter your country"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="user.address"
+            placeholder="Enter your address"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="user.email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input type="password" placeholder="Create password" required />
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            v-model="user.password"
+            placeholder="Confirm password"
+            required
+          />
+        </div>
+        <div class="policy">
+          <input type="checkbox" />
+          <h3>I accept all terms & condition</h3>
+        </div>
+        <div class="input-box button">
+          <input type="button" value="Register Now" @click="registrarUsuario" />
+        </div>
+        <div class="text">
+          <h3>Already have an account? <a href="#">Login now</a></h3>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 <style>
@@ -35,7 +84,7 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-body {
+.div-form {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -125,4 +174,48 @@ form .text h3 a:hover {
   text-decoration: underline;
 }
 </style>
-<script></script>
+<script>
+export default {
+  name: "RegisterForm",
+  methods: {
+    registrarUsuario() {
+      let endpointSignUp = "/api/User/SignUp";
+
+      this.$api
+        .post(endpointSignUp, this.user)
+        .then((response) => {
+          console.log("Esta es la respuesta: " + JSON.stringify(response));
+          this.$q.notify({
+            message: "Registro exitoso",
+            color: "green",
+            position: "top",
+            timeOut: 3000,
+          });
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          console.log("Ocurrió un error: " + error);
+          this.$q.notify({
+            message: "Ocurrió un error: " + error,
+            color: "red",
+            position: "top",
+            timeOut: 3000,
+          });
+        });
+    },
+  },
+  data() {
+    return {
+      user: {
+        firstName: "",
+        lastName: "",
+        dateOfBirth: "",
+        country: "",
+        address: "",
+        email: "",
+        password: "",
+      },
+    };
+  },
+};
+</script>

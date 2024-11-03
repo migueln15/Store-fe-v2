@@ -64,7 +64,7 @@ export default {
             timeout: 5000,
           });
 
-          this.$router.push("/");
+          this.$router.push("/dashboard");
         })
         .catch((error) => {
           //Ocurrió un error

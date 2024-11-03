@@ -6,23 +6,26 @@
           <h5>Inicio de sesión</h5>
         </q-card-section>
         <q-card-section>
-          <q-input
-            v-model="emailValue"
-            standout="bg-teal text-white"
-            label="Email"
-            outlined
-            dense
-          />
+          <q-input v-model="emailValue" filled type="email" hint="Email" />
           <q-input
             v-model="pwdValue"
-            standout="bg-teal text-white"
-            label="Password"
-            outlined
-            dense
-          />
+            filled
+            :type="isPwd ? 'password' : 'text'"
+            hint="Password"
+          >
+            <template v-slot:append>
+              <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
         </q-card-section>
         <q-card-section>
           <q-btn label="Login" color="primary" @click="inicioSesion" />
+          <br />
+          <q-btn label="Register" to="/register" />
         </q-card-section>
       </q-page>
     </q-page-container>
@@ -38,6 +41,7 @@ export default {
     return {
       emailValue: "",
       pwdValue: "",
+      isPwd: true,
     };
   },
   methods: {

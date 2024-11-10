@@ -56,7 +56,8 @@ export default {
         .post(endpointLogin, user)
         .then((response) => {
           //respuesta exitosa
-          console.log("Respuesta exitosa: " + JSON.stringify(response));
+          //console.log("Respuesta exitosa: " + JSON.stringify(response));
+          localStorage.setItem("userData", JSON.stringify(response));
           this.$q.notify({
             message: "Bienvenido a Store APP",
             color: "positive",

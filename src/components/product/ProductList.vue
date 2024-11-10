@@ -2,9 +2,7 @@
   <h5>Listado de productos</h5>
   <div class="product-list">
     <div class="product-grid">
-      <div class="product-item">
-        <ProductItem />
-      </div>
+      <ProductItem :product="item" v-for="item in products" :key="item.id" />
     </div>
   </div>
 </template>
@@ -23,5 +21,35 @@ import ProductItem from "src/components/product/ProductItem.vue";
 export default {
   name: "ProductList",
   components: { ProductItem },
+  data() {
+    return {
+      products: [],
+    };
+  },
+  mounted() {
+    this.cargarProductos();
+  },
+  methods: {
+    cargarProductos() {
+      let endpointURL = "api/product";
+      let token = JSON.parse(localStorage.getItem("userData")).data.token;
+      console.log(token);
+      let headers = {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+
+      this.$api
+        .get(endpointURL, headers)
+        .then((response) => {
+          console.log(JSON.stringify(response));
+          this.products = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
